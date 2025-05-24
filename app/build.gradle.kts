@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -51,4 +54,6 @@ dependencies {
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
 
+    // view binding delegate
+    implementation(libs.vbpd)
 }

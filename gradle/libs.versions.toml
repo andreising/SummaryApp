@@ -12,6 +12,7 @@ constraintlayout = "2.2.1"
 rxjava = "3.1.5"
 rxandroid = "3.0.2"
 adapterRxjava3 = "2.9.0"
+vbpd = "2.0.4"
 
 [libraries]
 adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "adapterRxjava3" }
@@ -25,6 +26,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+vbpd = { module = "dev.androidbroadcast.vbpd:vbpd", version.ref = "vbpd" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
