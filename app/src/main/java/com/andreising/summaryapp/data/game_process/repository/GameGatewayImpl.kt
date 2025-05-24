@@ -2,7 +2,6 @@ package com.andreising.summaryapp.data.game_process.repository
 
 import com.andreising.summaryapp.data.game_process.source.GameManager
 import com.andreising.summaryapp.domain.game_process.repository.GameGateway
-import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Level
 
 class GameGatewayImpl(private val gameManager: GameManager) : GameGateway {
@@ -19,9 +18,6 @@ class GameGatewayImpl(private val gameManager: GameManager) : GameGateway {
 
     override fun observeGameEnd() = gameManager.getGameEndObserver()
 
-    override fun getGameResult(): GameResult {
-        TODO("Not yet implemented")
-    }
-
+    override fun getGameResult() = gameManager.getGameResult()
 
 }
