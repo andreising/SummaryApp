@@ -1,21 +1,25 @@
 package com.andreising.summaryapp.domain.game_process.repository
 
-import androidx.lifecycle.LiveData
 import com.andreising.summaryapp.domain.models.GameProgressStats
 import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Level
 import com.andreising.summaryapp.domain.models.Question
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 
-interface GameRepository {
+interface GameGateway {
+
+    //pre-start
+    fun chooseLevel(level: Level)
 
     //start
-    fun chooseLevelAndStartGame(level: Level)
+    fun observeGameProgress(): Observable<GameProgressStats>
+    fun observeCurrentQuestion(): Observable<Question>
+    fun startGame()
 
     //game process
-    fun getGameCurrentStatisticLiveData(): LiveData<GameProgressStats>
-    fun getCurrentQuestionLiveData(): LiveData<Question>
     fun sendAnswer(answer: Int)
-    fun getGameEndObserver(): LiveData<Unit>
+    fun observeGameEnd(): Completable
 
     //end
     fun getGameResult(): GameResult
