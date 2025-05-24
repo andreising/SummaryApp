@@ -45,4 +45,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //rxjava
+    implementation(libs.adapter.rxjava3)
+    implementation(libs.rxandroid)
+    implementation(libs.rxjava)
+
 }
