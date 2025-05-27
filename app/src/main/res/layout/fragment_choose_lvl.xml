@@ -30,7 +30,7 @@
         android:text="@string/easy" />
 
     <Button
-        android:id="@+id/medium_lvl_button"
+        android:id="@+id/normal_lvl_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

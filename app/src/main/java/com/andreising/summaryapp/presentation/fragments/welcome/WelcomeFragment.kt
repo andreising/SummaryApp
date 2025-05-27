@@ -1,28 +1,35 @@
 package com.andreising.summaryapp.presentation.fragments.welcome
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.databinding.FragmentWelcomeBinding
+import com.andreising.summaryapp.presentation.fragments.choose_lvl.ChooseLvlFragment
+import com.andreising.summaryapp.presentation.navigation.setNewFragment
 import dev.androidbroadcast.vbpd.viewBinding
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
     val binding: FragmentWelcomeBinding by viewBinding(FragmentWelcomeBinding::bind)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListener()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_welcome, container, false)
+    private fun setOnClickListener() {
+        binding.startGameButton.setOnClickListener {
+            requireActivity().setNewFragment(
+                fragment = ChooseLvlFragment.newInstance()
+            )
+        }
+    }
+
+    companion object {
+        fun newInstance(): WelcomeFragment {
+            return WelcomeFragment()
+        }
     }
 
 }

@@ -29,5 +29,15 @@ enum class Level(
         maxValue = 30,
         requiredCorrectAnswer = 20,
         totalQuestion = 20
-    )
+    );
+
+    companion object {
+        fun fromName(name: String?): Level = when (name) {
+            TEST.name -> TEST
+            EASY.name -> EASY
+            NORMAL.name -> NORMAL
+            HARD.name -> HARD
+            else -> error("Invalid level name: $name")
+        }
+    }
 }
