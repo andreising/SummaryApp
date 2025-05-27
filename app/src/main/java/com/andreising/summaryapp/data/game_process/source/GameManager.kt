@@ -86,7 +86,7 @@ class GameManager(
         val progress = progressState.get()
         val gameSettings = requireGameSettings()
         gameResult = GameResult(
-            currentLevel = gameSettings.currentLevel,
+            totalAnswers = gameSettings.currentLevel.totalQuestion,
             correctAnswers = progress.correctAnswersCount,
             requiredCorrectAnswers = gameSettings.currentLevel.requiredCorrectAnswer,
             totalTimeSec = progress.timeRemainInSeconds
