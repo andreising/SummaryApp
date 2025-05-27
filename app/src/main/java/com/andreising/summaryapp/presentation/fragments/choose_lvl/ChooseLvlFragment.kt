@@ -3,7 +3,9 @@ package com.andreising.summaryapp.presentation.fragments.choose_lvl
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.andreising.summaryapp.R
+import com.andreising.summaryapp.SummaryApp
 import com.andreising.summaryapp.databinding.FragmentChooseLvlBinding
 import com.andreising.summaryapp.domain.models.Level
 import com.andreising.summaryapp.presentation.fragments.game.GameFragment
@@ -13,22 +15,42 @@ import dev.androidbroadcast.vbpd.viewBinding
 class ChooseLvlFragment : Fragment(R.layout.fragment_choose_lvl) {
 
     private val binding: FragmentChooseLvlBinding by viewBinding(FragmentChooseLvlBinding::bind)
+    private val viewModel: ChooseLvlViewModel by lazy {
+        ViewModelProvider(
+            this,
+            ChooseLvlViewModelFactory(requireActivity().application as SummaryApp)
+        )[ChooseLvlViewModel::class.java]
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initButtons()
+        initObserver()
+    }
+
+    private fun initButtons() {
         binding.apply {
-            testLvlButton.setOnClickListener { toGameFragment(Level.TEST) }
-            easyLvlButton.setOnClickListener { toGameFragment(Level.EASY) }
-            normalLvlButton.setOnClickListener { toGameFragment(Level.NORMAL) }
-            hardLvlButton.setOnClickListener { toGameFragment(Level.HARD) }
+            testLvlButton.setOnClickListener { levelChose(Level.TEST) }
+            easyLvlButton.setOnClickListener { levelChose(Level.EASY) }
+            normalLvlButton.setOnClickListener { levelChose(Level.NORMAL) }
+            hardLvlButton.setOnClickListener { levelChose(Level.HARD) }
         }
     }
 
-    private fun toGameFragment(level: Level) {
-        requireActivity().setNewFragment(
-            fragment = GameFragment.newInstance(level),
-            destinationName = GameFragment.NAME
-        )
+    private fun initObserver() {
+        viewModel.navigateToGame.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let { level ->
+                requireActivity().setNewFragment(
+                    fragment = GameFragment.newInstance(level),
+                    destinationName = GameFragment.NAME
+                )
+            }
+        }
+    }
+
+    private fun levelChose(level: Level) {
+        viewModel.onLevelChose(level)
     }
 
     companion object {
