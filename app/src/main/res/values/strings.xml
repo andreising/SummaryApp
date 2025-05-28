@@ -16,6 +16,6 @@
     <string name="result_image">result_image</string>
     <string name="right_answers">Ваш счет: %s</string>
     <string name="required_answers">Необходимое количество правильных ответов: %s</string>
-    <string name="time_spent">Время на выполнение</string>
+    <string name="time_spent">Время затрачено: %s секунд</string>
     <string name="try_again">Попробовать снова</string>
 </resources>

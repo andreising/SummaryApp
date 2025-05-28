@@ -11,7 +11,7 @@ import com.andreising.summaryapp.SummaryApp
 import com.andreising.summaryapp.databinding.FragmentGameBinding
 import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Question
-import com.andreising.summaryapp.presentation.fragments.finished.FinishedFragment
+import com.andreising.summaryapp.presentation.fragments.finished.FinishGameFragment
 import com.andreising.summaryapp.presentation.navigation.setNewFragment
 import dev.androidbroadcast.vbpd.viewBinding
 
@@ -114,7 +114,7 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun toFinishedFragment(gameResult: GameResult) {
-        requireActivity().setNewFragment(FinishedFragment.newInstance(gameResult))
+        requireActivity().setNewFragment(FinishGameFragment.newInstance(gameResult))
     }
 
     //end region
