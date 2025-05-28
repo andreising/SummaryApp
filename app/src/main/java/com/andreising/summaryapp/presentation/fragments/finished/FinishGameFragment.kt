@@ -2,31 +2,25 @@ package com.andreising.summaryapp.presentation.fragments.finished
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.databinding.FragmentFinishGameBinding
 import com.andreising.summaryapp.domain.models.GameResult
-import com.andreising.summaryapp.presentation.fragments.game.GameFragment
-import com.andreising.summaryapp.presentation.navigation.popBackStack
-import com.andreising.summaryapp.presentation.navigation.requireParcelable
 import dev.androidbroadcast.vbpd.viewBinding
 
 class FinishGameFragment : Fragment(R.layout.fragment_finish_game) {
 
+    private val args by navArgs<FinishGameFragmentArgs>()
+
     val binding: FragmentFinishGameBinding by viewBinding(FragmentFinishGameBinding::bind)
 
-    private lateinit var gameResult: GameResult
+    private val gameResult: GameResult by lazy { args.gameResult }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        gameResult = requireArguments().requireParcelable<GameResult>(GAME_RESULT_KEY)
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                retryGame()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        setClicks()
         bindResult(gameResult)
     }
 
@@ -44,21 +38,7 @@ class FinishGameFragment : Fragment(R.layout.fragment_finish_game) {
         timeSpentText.text = getString(R.string.time_spent, result.totalTimeSec.toString())
     }
 
-
-    private fun retryGame() {
-        requireActivity().popBackStack(GameFragment.NAME, true)
-    }
-
-    companion object {
-
-        private const val GAME_RESULT_KEY = "game_result_key"
-
-        fun newInstance(gameResult: GameResult): FinishGameFragment {
-            return FinishGameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(GAME_RESULT_KEY, gameResult)
-                }
-            }
-        }
+    private fun setClicks() {
+        binding.retryButton.setOnClickListener { findNavController().popBackStack() }
     }
 }

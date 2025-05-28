@@ -6,13 +6,12 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.SummaryApp
 import com.andreising.summaryapp.databinding.FragmentGameBinding
 import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Question
-import com.andreising.summaryapp.presentation.fragments.finished.FinishGameFragment
-import com.andreising.summaryapp.presentation.navigation.setNewFragment
 import dev.androidbroadcast.vbpd.viewBinding
 
 class GameFragment : Fragment(R.layout.fragment_game) {
@@ -114,17 +113,12 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun toFinishedFragment(gameResult: GameResult) {
-        requireActivity().setNewFragment(FinishGameFragment.newInstance(gameResult))
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragmentToFinishGameFragment2(
+                gameResult
+            )
+        )
     }
 
     //end region
-
-    companion object {
-
-        const val NAME = "game_fragment"
-
-        fun newInstance(): GameFragment {
-            return GameFragment()
-        }
-    }
 }

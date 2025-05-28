@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.SummaryApp
 import com.andreising.summaryapp.databinding.FragmentChooseLvlBinding
 import com.andreising.summaryapp.domain.models.Level
-import com.andreising.summaryapp.presentation.fragments.game.GameFragment
-import com.andreising.summaryapp.presentation.navigation.setNewFragment
 import dev.androidbroadcast.vbpd.viewBinding
 
 class ChooseLvlFragment : Fragment(R.layout.fragment_choose_lvl) {
@@ -41,22 +40,17 @@ class ChooseLvlFragment : Fragment(R.layout.fragment_choose_lvl) {
     private fun initObserver() {
         viewModel.navigateToGame.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { level ->
-                requireActivity().setNewFragment(
-                    fragment = GameFragment.newInstance(),
-                    destinationName = GameFragment.NAME
-                )
+                navigateToGameFragment()
             }
         }
     }
 
-    private fun levelChose(level: Level) {
-        viewModel.onLevelChose(level)
+    private fun navigateToGameFragment() {
+        findNavController().navigate(R.id.action_chooseLvlFragment_to_gameFragment)
     }
 
-    companion object {
-        fun newInstance(): ChooseLvlFragment {
-            return ChooseLvlFragment()
-        }
+    private fun levelChose(level: Level) {
+        viewModel.onLevelChose(level)
     }
 
 }
