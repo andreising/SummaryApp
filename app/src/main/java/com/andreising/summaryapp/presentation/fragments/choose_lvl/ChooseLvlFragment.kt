@@ -42,7 +42,7 @@ class ChooseLvlFragment : Fragment(R.layout.fragment_choose_lvl) {
         viewModel.navigateToGame.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { level ->
                 requireActivity().setNewFragment(
-                    fragment = GameFragment.newInstance(level),
+                    fragment = GameFragment.newInstance(),
                     destinationName = GameFragment.NAME
                 )
             }

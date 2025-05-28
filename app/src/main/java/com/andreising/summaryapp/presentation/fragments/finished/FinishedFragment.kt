@@ -6,21 +6,19 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.databinding.FragmentFinishedBinding
-import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.presentation.fragments.game.GameFragment
 import com.andreising.summaryapp.presentation.navigation.popBackStack
-import com.andreising.summaryapp.presentation.navigation.requireParcelable
 import dev.androidbroadcast.vbpd.viewBinding
 
 class FinishedFragment : Fragment(R.layout.fragment_finished) {
 
     val binding: FragmentFinishedBinding by viewBinding(FragmentFinishedBinding::bind)
 
-    private lateinit var gameResult: GameResult
+//    private lateinit var gameResult: GameResult
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gameResult = requireArguments().requireParcelable<GameResult>(GAME_RESULT_KEY)
+//        gameResult = requireArguments().requireParcelable<GameResult>(GAME_RESULT_KEY)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,9 +27,9 @@ class FinishedFragment : Fragment(R.layout.fragment_finished) {
             override fun handleOnBackPressed() {
                 retryGame()
             }
-
         }
-        requireActivity().onBackPressedDispatcher.addCallback(callback)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        binding.retryButton.setOnClickListener { retryGame() }
     }
 
     private fun retryGame() {
@@ -42,12 +40,15 @@ class FinishedFragment : Fragment(R.layout.fragment_finished) {
 
         private const val GAME_RESULT_KEY = "game_result_key"
 
-        fun newInstance(gameResult: GameResult): FinishedFragment {
-            return FinishedFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(GAME_RESULT_KEY, gameResult)
-                }
-            }
+        fun newInstance(): FinishedFragment {
+            return FinishedFragment()
         }
+//        fun newInstance(gameResult: GameResult): FinishedFragment {
+//            return FinishedFragment().apply {
+//                arguments = Bundle().apply {
+//                    putParcelable(GAME_RESULT_KEY, gameResult)
+//                }
+//            }
+//        }
     }
 }

@@ -15,7 +15,7 @@ class GameManager(
     private var gameSettings: GameSettings? = null
     private val questionState = ReactiveValue(Question.getInitial())
     private val progressState = ReactiveValue(GameProgressStats.getInitial())
-    private val gameEnd = CompletableSubject.create()
+    private var gameEnd = CompletableSubject.create()
     private var gameResult: GameResult? = null
     private var currentQuestionIndex = 0
 
@@ -26,7 +26,7 @@ class GameManager(
                 timeRemainInSeconds = level.totalTimeSec,
                 timeProgressRemain = 1f,
                 correctAnswersCount = 0,
-                totalAnswersCount = 0
+                totalAnswersCount = level.requiredCorrectAnswer
             )
         )
         setQuestion(currentQuestionIndex)
@@ -35,6 +35,15 @@ class GameManager(
 
     fun startGame() {
         gameTimer.startTimer()
+    }
+
+    fun cancelGame() {
+        gameTimer.stopTimer()
+        gameSettings = null
+        questionState.update(Question.getInitial())
+        progressState.update(GameProgressStats.getInitial())
+        currentQuestionIndex = 0
+        gameEnd = CompletableSubject.create()
     }
 
     fun getGameCurrentStatsObserver() = progressState.observe()
@@ -77,9 +86,9 @@ class GameManager(
 
 
     private fun endGame() {
-        gameTimer.stopTimer()
         generateGameResult()
         gameEnd.onComplete()
+        cancelGame()
     }
 
     private fun generateGameResult() {
@@ -106,10 +115,8 @@ class GameManager(
         val correctAnswer = sum - firstOperand
 
         val answers = mutableSetOf(correctAnswer)
-
         while (answers.size < COUNT_OF_VARIATIONS) {
-            val wrongAnswer = (MIN_ANSWER_VALUE..maxSumValue).random()
-            answers.add(wrongAnswer)
+            answers.add((MIN_ANSWER_VALUE..sum).random())
         }
 
         return Question(
@@ -133,7 +140,7 @@ class GameManager(
     }
 
     companion object {
-        private const val MIN_SUM_VALUE = 2
+        private const val MIN_SUM_VALUE = 6
         private const val MIN_ANSWER_VALUE = 1
         private const val COUNT_OF_VARIATIONS = 6
     }
