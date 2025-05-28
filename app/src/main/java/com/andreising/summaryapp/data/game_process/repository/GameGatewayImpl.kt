@@ -20,6 +20,4 @@ class GameGatewayImpl(private val gameManager: GameManager) : GameGateway {
 
     override fun cancelGame() = gameManager.cancelGame()
 
-    override fun getGameResult() = gameManager.getGameResult()
-
 }

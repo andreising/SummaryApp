@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.SummaryApp
 import com.andreising.summaryapp.databinding.FragmentGameBinding
+import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Question
 import com.andreising.summaryapp.presentation.fragments.finished.FinishedFragment
 import com.andreising.summaryapp.presentation.navigation.setNewFragment
@@ -78,8 +79,10 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     }
 
     private fun observeGameEnd() {
-        viewModel.gameEndLiveData.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let { toFinishedFragment() }
+        viewModel.gameEndLiveData.observe(viewLifecycleOwner) { gameResult ->
+            gameResult.getContentIfNotHandled()?.let {
+                if (!GameResult.isInitial(it)) toFinishedFragment(it)
+            }
         }
     }
 
@@ -110,8 +113,8 @@ class GameFragment : Fragment(R.layout.fragment_game) {
         ).forEach { it.setOnClickListener(clickHandler) }
     }
 
-    private fun toFinishedFragment() {
-        requireActivity().setNewFragment(FinishedFragment.newInstance())
+    private fun toFinishedFragment(gameResult: GameResult) {
+        requireActivity().setNewFragment(FinishedFragment.newInstance(gameResult))
     }
 
     //end region

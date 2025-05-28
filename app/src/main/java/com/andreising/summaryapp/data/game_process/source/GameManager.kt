@@ -6,7 +6,6 @@ import com.andreising.summaryapp.domain.models.GameProgressStats
 import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Level
 import com.andreising.summaryapp.domain.models.Question
-import io.reactivex.rxjava3.subjects.CompletableSubject
 
 class GameManager(
     private val gameTimer: GameTimer
@@ -15,8 +14,7 @@ class GameManager(
     private var gameSettings: GameSettings? = null
     private val questionState = ReactiveValue(Question.getInitial())
     private val progressState = ReactiveValue(GameProgressStats.getInitial())
-    private var gameEnd = CompletableSubject.create()
-    private var gameResult: GameResult? = null
+    private var gameEnd = ReactiveValue(GameResult.getInitial())
     private var currentQuestionIndex = 0
 
     fun initGame(level: Level) {
@@ -43,13 +41,12 @@ class GameManager(
         questionState.update(Question.getInitial())
         progressState.update(GameProgressStats.getInitial())
         currentQuestionIndex = 0
-        gameEnd = CompletableSubject.create()
+        gameEnd.update(GameResult.getInitial())
     }
 
     fun getGameCurrentStatsObserver() = progressState.observe()
     fun getQuestionObserver() = questionState.observe()
-    fun getGameEndObserver() = gameEnd.hide()
-    fun getGameResult() = gameResult ?: error("Game result is not initialized")
+    fun getGameEndObserver() = gameEnd.observe()
 
     private fun generateGameSettings(level: Level): GameSettings =
         GameSettings(level, generateQuestionList(level.maxValue, level.totalQuestion))
@@ -84,17 +81,15 @@ class GameManager(
     private fun requireGameSettings() =
         gameSettings ?: throw RuntimeException("Game settings are not initialized")
 
-
     private fun endGame() {
-        generateGameResult()
-        gameEnd.onComplete()
+        gameEnd.update(generateGameResult())
         cancelGame()
     }
 
-    private fun generateGameResult() {
+    private fun generateGameResult(): GameResult {
         val progress = progressState.get()
         val gameSettings = requireGameSettings()
-        gameResult = GameResult(
+        return GameResult(
             totalAnswers = gameSettings.currentLevel.totalQuestion,
             correctAnswers = progress.correctAnswersCount,
             requiredCorrectAnswers = gameSettings.currentLevel.requiredCorrectAnswer,
