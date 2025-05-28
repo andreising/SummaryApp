@@ -3,10 +3,9 @@ package com.andreising.summaryapp.presentation.fragments.welcome
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.andreising.summaryapp.R
 import com.andreising.summaryapp.databinding.FragmentWelcomeBinding
-import com.andreising.summaryapp.presentation.fragments.choose_lvl.ChooseLvlFragment
-import com.andreising.summaryapp.presentation.navigation.setNewFragment
 import dev.androidbroadcast.vbpd.viewBinding
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
@@ -20,16 +19,12 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
     private fun setOnClickListener() {
         binding.startGameButton.setOnClickListener {
-            requireActivity().setNewFragment(
-                fragment = ChooseLvlFragment.newInstance()
-            )
+            navigateToChooseLvlFragment()
         }
     }
 
-    companion object {
-        fun newInstance(): WelcomeFragment {
-            return WelcomeFragment()
-        }
+    private fun navigateToChooseLvlFragment() {
+        findNavController().navigate(R.id.action_welcomeFragment_to_chooseLvlFragment)
     }
 
 }

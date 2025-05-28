@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/welcomeFragment">
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.andreising.summaryapp.presentation.fragments.welcome.WelcomeFragment"
+        android:label="WelcomeFragment">
+        <action
+            android:id="@+id/action_welcomeFragment_to_chooseLvlFragment"
+            app:destination="@id/chooseLvlFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseLvlFragment"
+        android:name="com.andreising.summaryapp.presentation.fragments.choose_lvl.ChooseLvlFragment"
+        android:label="ChooseLvlFragment">
+        <action
+            android:id="@+id/action_chooseLvlFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.andreising.summaryapp.presentation.fragments.game.GameFragment"
+        android:label="GameFragment">
+        <action
+            android:id="@+id/action_gameFragment_to_finishGameFragment2"
+            app:destination="@id/finishGameFragment2"
+            app:popUpTo="@id/chooseLvlFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/finishGameFragment2"
+        android:name="com.andreising.summaryapp.presentation.fragments.finished.FinishGameFragment"
+        android:label="FinishGameFragment">
+        <argument
+            android:name="game_result"
+            app:argType="com.andreising.summaryapp.domain.models.GameResult" />
+    </fragment>
+</navigation>
