@@ -22,5 +22,6 @@ interface GameGateway {
     fun observeGameEnd(): Completable
 
     //end
+    fun cancelGame()
     fun getGameResult(): GameResult
 }
