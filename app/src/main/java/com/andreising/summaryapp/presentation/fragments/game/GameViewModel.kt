@@ -10,6 +10,7 @@ import com.andreising.summaryapp.domain.game_process.usecases.game.ObserveGamePr
 import com.andreising.summaryapp.domain.game_process.usecases.game.SendAnswerUseCase
 import com.andreising.summaryapp.domain.game_process.usecases.game.StartGameUseCase
 import com.andreising.summaryapp.domain.models.GameProgressStats
+import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Question
 import com.andreising.summaryapp.presentation.fragments.utils.Event
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -33,8 +34,8 @@ class GameViewModel(
     private val _progressLiveData = MutableLiveData<GameProgressStats>()
     val progressLiveData: LiveData<GameProgressStats> = _progressLiveData
 
-    private val _gameEndLiveData = MutableLiveData<Event<Unit>>()
-    val gameEndLiveData: LiveData<Event<Unit>> = _gameEndLiveData
+    private val _gameEndLiveData = MutableLiveData<Event<GameResult>>()
+    val gameEndLiveData: LiveData<Event<GameResult>> = _gameEndLiveData
 
     private fun subscribeToQuestionStream() {
         val disposable = observeCurrentQuestionUseCase.invoke()
@@ -59,7 +60,7 @@ class GameViewModel(
         val disposable = observeGameEndUseCase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _gameEndLiveData.value = Event(Unit) }
+            .subscribe { gameResult -> _gameEndLiveData.value = Event(gameResult) }
         disposables.add(disposable)
     }
 

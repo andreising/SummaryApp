@@ -4,7 +4,6 @@ import com.andreising.summaryapp.domain.models.GameProgressStats
 import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Level
 import com.andreising.summaryapp.domain.models.Question
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
 interface GameGateway {
@@ -19,9 +18,8 @@ interface GameGateway {
 
     //game process
     fun sendAnswer(answer: Int)
-    fun observeGameEnd(): Completable
+    fun observeGameEnd(): Observable<GameResult>
 
     //end
     fun cancelGame()
-    fun getGameResult(): GameResult
 }

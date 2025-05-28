@@ -6,7 +6,6 @@ import com.andreising.summaryapp.data.game_process.source.GameManager
 import com.andreising.summaryapp.data.game_process.source.GameTimer
 import com.andreising.summaryapp.domain.game_process.repository.GameGateway
 import com.andreising.summaryapp.domain.game_process.usecases.finish.CancelGameUseCase
-import com.andreising.summaryapp.domain.game_process.usecases.finish.GetGameResultUseCase
 import com.andreising.summaryapp.domain.game_process.usecases.game.ObserveCurrentQuestionUseCase
 import com.andreising.summaryapp.domain.game_process.usecases.game.ObserveGameEndUseCase
 import com.andreising.summaryapp.domain.game_process.usecases.game.ObserveGameProgressUseCase
@@ -25,7 +24,6 @@ class SummaryApp : Application() {
     lateinit var observeQuestionUseCase: ObserveCurrentQuestionUseCase
     lateinit var observeProgressUseCase: ObserveGameProgressUseCase
     lateinit var observeEndUseCase: ObserveGameEndUseCase
-    lateinit var getGameResultUseCase: GetGameResultUseCase
     lateinit var cancelGameUseCase: CancelGameUseCase
 
     override fun onCreate() {
@@ -42,7 +40,6 @@ class SummaryApp : Application() {
         observeQuestionUseCase = ObserveCurrentQuestionUseCase(gameGateway)
         observeProgressUseCase = ObserveGameProgressUseCase(gameGateway)
         observeEndUseCase = ObserveGameEndUseCase(gameGateway)
-        getGameResultUseCase = GetGameResultUseCase(gameGateway)
         cancelGameUseCase = CancelGameUseCase(gameGateway)
     }
 }
