@@ -24,18 +24,8 @@ class FinishGameFragment : Fragment(R.layout.fragment_finish_game) {
         bindResult(gameResult)
     }
 
-    private fun bindResult(result: GameResult) = with(binding) {
-        resultImage.setImageResource(
-            if (result.correctAnswers >= result.requiredCorrectAnswers)
-                R.drawable.ic_smile
-            else
-                R.drawable.ic_sad
-        )
-
-        rightAnswersText.text = getString(R.string.right_answers, result.correctAnswers.toString())
-        requiredAnswersText.text =
-            getString(R.string.required_answers, result.requiredCorrectAnswers.toString())
-        timeSpentText.text = getString(R.string.time_spent, result.totalTimeSec.toString())
+    private fun bindResult(result: GameResult) {
+        binding.gameResult = result
     }
 
     private fun setClicks() {
