@@ -1,6 +1,5 @@
 package com.andreising.summaryapp.presentation.fragments.game
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -51,29 +50,13 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     private fun observeQuestion() {
         viewModel.questionLiveData.observe(viewLifecycleOwner) { question ->
             if (question == Question.getInitial()) return@observe
-            binding.apply {
-                tvSum.text = question.sum.toString()
-                tvLeftNumber.text = question.firstOperand.toString()
-                val optionViews =
-                    listOf(tvOption1, tvOption2, tvOption3, tvOption4, tvOption5, tvOption6)
-                question.answersList.forEachIndexed { i, answer ->
-                    optionViews[i].text = answer.toString()
-                }
-            }
+            binding.question = question
         }
     }
 
     private fun observeGameProgressStats() {
         viewModel.progressLiveData.observe(viewLifecycleOwner) { progress ->
-            binding.apply {
-                tvTimer.text = formatSecondsToTime(progress.timeRemainInSeconds)
-                progressBar.progress = floatToIntPercent(progress.timeProgressRemain)
-                tvAnswersProgress.text = String.format(
-                    requireContext().getString(R.string.progress_answers),
-                    progress.correctAnswersCount.toString(),
-                    progress.totalAnswersCount.toString()
-                )
-            }
+            binding.gameProgress = progress
         }
     }
 
@@ -88,17 +71,6 @@ class GameFragment : Fragment(R.layout.fragment_game) {
     // endregion
 
     // region UI
-
-    private fun floatToIntPercent(float: Float): Int {
-        return (100 * float).toInt()
-    }
-
-    @SuppressLint("DefaultLocale")
-    private fun formatSecondsToTime(seconds: Int): String {
-        val minutes = seconds / 60
-        val remainingSeconds = seconds % 60
-        return String.format("%02d:%02d", minutes, remainingSeconds)
-    }
 
     private fun setOptionClick() = with(binding) {
         val clickHandler = View.OnClickListener { view ->
