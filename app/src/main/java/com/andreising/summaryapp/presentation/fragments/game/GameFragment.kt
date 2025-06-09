@@ -4,23 +4,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.andreising.summaryapp.R
-import com.andreising.summaryapp.SummaryApp
 import com.andreising.summaryapp.databinding.FragmentGameBinding
 import com.andreising.summaryapp.domain.models.GameResult
 import com.andreising.summaryapp.domain.models.Question
 import dev.androidbroadcast.vbpd.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GameFragment : Fragment(R.layout.fragment_game) {
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            GameViewModelFactory(requireActivity().application as SummaryApp)
-        )[GameViewModel::class.java]
-    }
+    private val viewModel: GameViewModel by viewModel()
 
     val binding: FragmentGameBinding by viewBinding(FragmentGameBinding::bind)
 

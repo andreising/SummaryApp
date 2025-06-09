@@ -93,7 +93,7 @@ class GameManager(
             totalAnswers = gameSettings.currentLevel.totalQuestion,
             correctAnswers = progress.correctAnswersCount,
             requiredCorrectAnswers = gameSettings.currentLevel.requiredCorrectAnswer,
-            totalTimeSec = progress.timeRemainInSeconds
+            totalTimeSec = gameSettings.currentLevel.totalTimeSec - progress.timeRemainInSeconds
         )
     }
 

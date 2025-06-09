@@ -63,4 +63,9 @@ dependencies {
     //jetpack navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.fragment)
+
+    //koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.navigation)
+    implementation(libs.koin.androidx.compose)
 }
